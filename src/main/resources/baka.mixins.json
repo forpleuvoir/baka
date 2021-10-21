@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "forpleuvoir.baka.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.baka.refmap.json",
+  "mixins": [
+    "MixinExperienceOrbEntity",
+    "MixinMerchantOffer",
+    "MixinMinecraftServer",
+    "MixinServerPlayerEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
