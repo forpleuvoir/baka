@@ -131,6 +131,20 @@ public class ReflectionUtil {
         return getFieldByType(o, objectClasstype, fieldClasstype, 0);
     }
 
+    public static Field getFieldByType(Class<?> objectClasstype, Class<?> fieldClasstype, int index) {
+        int counter = 0;
+        Field[] fields = objectClasstype.getDeclaredFields();
+        for(int i = 0; i < fields.length; ++i) {
+            if (fieldClasstype.equals(fields[i].getType())) {
+                if (counter == index) {
+                    fields[i].setAccessible(true);
+                    return fields[i];
+                }
+                ++counter;
+            }
+        }
+        return null;
+    }
     public static Field getFieldByType(Object o, Class<?> objectClasstype, Class<?> fieldClasstype, int index) {
         Class objectClass;
         for(objectClass = o.getClass(); !objectClass.equals(objectClasstype) && objectClass.getSuperclass() != null; objectClass = objectClass.getSuperclass()) {

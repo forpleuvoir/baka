@@ -37,9 +37,7 @@ public class WarpCommand {
                         .suggests((c, b) -> {
                             Set<String> keys = new HashSet<>();
                             Set<String> strings = WarpPoint.warpPoints.keySet();
-                            strings.forEach(s -> {
-                                keys.add("\"" + s + "\"");
-                            });
+                            strings.forEach(s -> keys.add("\"" + s + "\""));
                             return ISuggestionProvider.suggest(keys, b);
                         })
                         .executes(WarpCommand::warp))
@@ -47,18 +45,16 @@ public class WarpCommand {
         dispatcher.register(Commands.literal("warps").executes(WarpCommand::warps));
         dispatcher.register(Commands.literal("setwarp")
                 .then(Commands.argument("warp", StringArgumentType.string())
-                        .executes(WarpCommand::setWarp)).requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(0)));
+                        .executes(WarpCommand::setWarp)).requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)));
         dispatcher.register(Commands.literal("removewarp")
                 .then(Commands.argument("warp", StringArgumentType.string())
                         .suggests((c, b) -> {
                             Set<String> keys = new HashSet<>();
                             Set<String> strings = WarpPoint.warpPoints.keySet();
-                            strings.forEach(s -> {
-                                keys.add("\"" + s + "\"");
-                            });
+                            strings.forEach(s -> keys.add("\"" + s + "\""));
                             return ISuggestionProvider.suggest(keys, b);
                         })
-                        .executes(WarpCommand::removeWarp)).requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(0)));
+                        .executes(WarpCommand::removeWarp)).requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2)));
     }
 
     private static int warp(CommandContext<CommandSource> context) throws CommandSyntaxException {
@@ -66,7 +62,7 @@ public class WarpCommand {
         ServerPlayerEntity player = source.asPlayer();
         String arg = StringArgumentType.getString(context, "warp");
         if (WarpPoint.warp(player, arg))
-            source.sendFeedback(new TranslationTextComponent("将玩家§b" + player.getScoreboardName() + "传送到 §b" + arg), false);
+            source.sendFeedback(new TranslationTextComponent("将玩家§b" + player.getScoreboardName() + "§r传送到 §b" + arg), false);
         else {
             throw warpException.create();
         }
@@ -76,6 +72,7 @@ public class WarpCommand {
     private static int removeWarp(CommandContext<CommandSource> context) {
         String arg = StringArgumentType.getString(context, "warp");
         WarpPoint.remove(arg);
+        context.getSource().sendFeedback(new StringTextComponent("已移除传送点: §b" + arg), false);
         return 1;
     }
 
@@ -83,6 +80,7 @@ public class WarpCommand {
         ServerPlayerEntity player = context.getSource().asPlayer();
         String arg = StringArgumentType.getString(context, "warp");
         WarpPoint.addWarp(arg, player);
+        context.getSource().sendFeedback(new StringTextComponent("已设置传送点: §b" + arg), false);
         return 1;
     }
 

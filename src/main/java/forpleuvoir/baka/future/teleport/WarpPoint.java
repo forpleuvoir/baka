@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import forpleuvoir.baka.utils.FileUtil;
 import forpleuvoir.baka.utils.JsonUtil;
+import forpleuvoir.baka.utils.ReflectionUtil;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
@@ -26,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Objects;
 
@@ -123,7 +125,14 @@ public class WarpPoint {
 
     public static String getDimension(ServerPlayerEntity player) {
         DimensionType type = player.getServerWorld().getDimensionType();
-        return type.getEffects().toString();
+        Field fieldByType = ReflectionUtil.getFieldByType(DimensionType.class, ResourceLocation.class, 4);
+        try {
+            assert fieldByType != null;
+            return ((ResourceLocation) fieldByType.get(type)).toString();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return World.OVERWORLD.getLocation().toString();
+        }
     }
 
     private static void save() {

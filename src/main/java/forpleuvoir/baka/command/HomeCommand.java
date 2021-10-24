@@ -30,7 +30,7 @@ public class HomeCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher){
         dispatcher.register(Commands.literal("home").executes(HomeCommand::home));
-        dispatcher.register(Commands.literal("setHome").executes(HomeCommand::setHome));
+        dispatcher.register(Commands.literal("sethome").executes(HomeCommand::setHome));
     }
 
     private static int home(CommandContext<CommandSource> context)throws CommandSyntaxException {

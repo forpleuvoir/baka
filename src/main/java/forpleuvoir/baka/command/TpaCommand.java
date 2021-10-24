@@ -41,7 +41,7 @@ public class TpaCommand {
         dispatcher.register(Commands.literal("tpaccept").executes(TpaCommand::tpaccept));
     }
 
-    private static int tpa(CommandContext<CommandSource> context) throws CommandSyntaxException {
+    private static int tpahere(CommandContext<CommandSource> context) throws CommandSyntaxException {
         CommandSource source = context.getSource();
         ServerPlayerEntity sender = source.asPlayer();
         ServerPlayerEntity target = EntityArgument.getPlayer(context, "player");
@@ -50,8 +50,8 @@ public class TpaCommand {
         }
         Tpa.tpas.put(target.getCachedUniqueIdString(), new Tpa(target, sender, source.getWorld().getGameTime()));
         target.sendMessage(new StringTextComponent("玩家 §b" + sender.getScoreboardName() + "§r 请求将你传送到ta的位置。"), sender.getUniqueID());
-        target.sendMessage(new StringTextComponent("在120秒内输入§c /tpaccept §f接受请求")
-                        .appendSibling(new StringTextComponent("[√]").modifyStyle(
+        target.sendMessage(new StringTextComponent("在120秒内输入§c /tpaccept §r接受请求 ")
+                        .appendSibling(new StringTextComponent("§a[√]").modifyStyle(
                                 style -> style.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tpaccept"))
                                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("点击接受")))
                         ))
@@ -60,7 +60,7 @@ public class TpaCommand {
         return 1;
     }
 
-    private static int tpahere(CommandContext<CommandSource> context) throws CommandSyntaxException {
+    private static int tpa(CommandContext<CommandSource> context) throws CommandSyntaxException {
         CommandSource source = context.getSource();
         ServerPlayerEntity sender = source.asPlayer();
         ServerPlayerEntity target = EntityArgument.getPlayer(context, "player");
@@ -69,8 +69,8 @@ public class TpaCommand {
         }
         Tpa.tpas.put(target.getCachedUniqueIdString(), new Tpa(sender, target, source.getWorld().getGameTime()));
         target.sendMessage(new StringTextComponent("玩家 §b" + sender.getScoreboardName() + "§r 请求传送到你的位置。"), sender.getUniqueID());
-        target.sendMessage(new StringTextComponent("在120秒内输入§c /tpaccept §f接受请求")
-                        .appendSibling(new StringTextComponent("[√]").modifyStyle(
+        target.sendMessage(new StringTextComponent("在120秒内输入§c /tpaccept §r接受请求")
+                        .appendSibling(new StringTextComponent("§a[√]").modifyStyle(
                                 style -> style.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tpaccept"))
                                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("点击接受")))
                         ))

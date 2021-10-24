@@ -5,10 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "mixins.baka.refmap.json",
   "mixins": [
-    "MixinExperienceOrbEntity",
-    "MixinMerchantOffer",
-    "MixinMinecraftServer",
-    "MixinServerPlayerEntity"
   ],
   "injectors": {
     "defaultRequire": 1

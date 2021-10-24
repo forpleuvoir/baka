@@ -14,8 +14,13 @@ import net.minecraftforge.common.MinecraftForge;
  * @author forpleuvoir
  */
 public class BakaEvent {
-    public static void registerEvent(){
-        MinecraftForge.EVENT_BUS.register(new BakaPlayerEvent());
-        MinecraftForge.EVENT_BUS.register(new BakaServerEvent());
+    public static void registerEvent() {
+        register(new BakaPlayerEvent());
+        register(new BakaServerEvent());
+        register(new BakaVillagerEvent());
+    }
+
+    private static void register(Object target) {
+        MinecraftForge.EVENT_BUS.register(target);
     }
 }

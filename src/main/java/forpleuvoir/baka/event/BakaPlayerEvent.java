@@ -7,10 +7,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * 项目名 baka
@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.Mod;
  *
  * @author forpleuvoir
  */
-@Mod.EventBusSubscriber(modid = "baka", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BakaPlayerEvent {
 
     @SubscribeEvent
@@ -48,5 +47,21 @@ public class BakaPlayerEvent {
         ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
         String dimension = event.getTo().getLocation().toString();
         WarpPoint.setBackPreDimension(player.getCachedUniqueIdString(), dimension);
+    }
+
+    @SubscribeEvent
+    public static void onXpChange(PlayerXpEvent.XpChange event) {
+        PlayerEntity player = event.getPlayer();
+        if (player.getEntityWorld() instanceof ServerWorld) {
+            player.xpCooldown = 0;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPickupXp(PlayerXpEvent.PickupXp event) {
+        PlayerEntity player = event.getPlayer();
+        if (player.getEntityWorld() instanceof ServerWorld) {
+            player.xpCooldown = 0;
+        }
     }
 }
